@@ -25,25 +25,31 @@ export default function DisplayDocs() {
 
     return (
 
-        <section className='max-w-3xl mx-auto bg-white pb-10 px-10 md:px-0'>
+        <
+        section className = 'max-w-3xl mx-auto bg-white pb-10 px-10 md:px-0' >
 
-            <div class="grid grid-rows-100 grid-col-1 gap-0">
-            <div class="grid grid-cols-2 gap-4 border-separate border-b-4">
-                <h1 class="text-black text-xl font-bold font-sans py-5 px-36">Your Docs</h1>
-                <h1 class="text-black text-xl font-bold font-sans py-5 text-right px-36">Date Created</h1>
-            </div>
-            {snapshot?.docs.map(doc => (
-                <DocumentRow
-                key={doc.id}
-                id={doc.id}
-                fileName={doc.data().fileName}
-                date={doc.data().timestamp}
-                >
-                </DocumentRow>
-            ))}
+        <
+        div class = "grid grid-rows-100 grid-col-1 gap-0" >
+        <
+        div class = "grid grid-cols-2 gap-4 border-separate border-b-4" >
+        <
+        h1 class = "text-black text-xl font-bold font-sans py-5 px-36" > Your Docs < /h1> <
+        h1 class = "text-black text-xl font-bold font-sans py-5 text-right px-36" > Date Created < /h1> < /
+        div > {
+            snapshot ? .docs.map(doc => ( <
+                DocumentRow key = { doc.id }
+                id = { doc.id }
+                fileName = { doc.data().fileName }
+                date = { doc.data().timestamp } >
+                <
+                /DocumentRow>
+            ))
+        }
 
-                </div>
-            
-        </section>
+        <
+        /div>
+
+        <
+        /section>
     )
-    }
+}

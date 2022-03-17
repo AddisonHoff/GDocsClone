@@ -19,11 +19,11 @@ function Header() {
             >
                 <Icon name="arrow_forward_ios" size="3xl"></Icon>
             </Button>
-            <button
+            <div
                     class="rounded-full focus:outline-none h-10 w-10 flex items-center justify-center">
                     <img src='/logo.png'
                         className="pokeball" alt="logo" />
-                </button>
+                </div>
             {/* <Icon name="description" size="5xl" color="blue"></Icon> */}
             <h1 className='ml-2 text-black text-2xl font-semibold pr-5'>Divination</h1>
 
