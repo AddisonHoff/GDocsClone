@@ -35,8 +35,41 @@ function TextEditor() {
     }
   }, [snapshot]);
 
+  async function question(question) {
+
+    const configuration = new Configuration({
+        apiKey: process.env.OPEN_AI_API_KEY,
+    })
+    const openai = new OpenAIApi(configuration)
+
+    const response = await openai.createCompletion("text-davinci-001", {
+        prompt: `${question}`,
+        max_tokens: 100,
+    })
+
+    let newString = ""
+
+    // add the text objects into one string
+    for (const responseText of response.data.choices) {
+        newString = newString.concat(responseText.text)
+    }
+  }
+
+
   const onEditorStateChange = (editorState) => {
-    setEditorState(editorState);
+    setEditorState(editorState)
+
+    const rawEditorContents = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
+    console.log(rawEditorContents)
+    if(rawEditorContents.indexOf("/a") !== -1) {
+      rawEditorContents = rawEditorContents.replace("/a", question(rawEditorContents));
+      console.log(rawEditorContents)
+      setEditorState(
+        EditorState.createWithContent(
+          convertFromRaw(JSON.parse(rawEditorContents))
+        )
+      );
+    }
 
     db.collection("userDocs")
       .doc(session.user.email)
