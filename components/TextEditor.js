@@ -54,36 +54,38 @@ function TextEditor() {
     for (const responseText of response.data.choices) {
         newString = newString.concat(responseText.text)
     }
+
+    return newString
   }
 
 
-  const onEditorStateChange = (editorState) => {
+  const onEditorStateChange = async (editorState) => {
     setEditorState(editorState)
 
     let rawEditorContents = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
     console.log(rawEditorContents)
-    if(rawEditorContents.indexOf("/a") !== -1) {
+    if (rawEditorContents.indexOf("/a") !== -1) {
       rawEditorContents = rawEditorContents.replace("/a", await question(rawEditorContents));
       console.log(rawEditorContents)
       setEditorState(
-        EditorState.createWithContent(
-          convertFromRaw(JSON.parse(rawEditorContents))
-        )
+          EditorState.createWithContent(
+              convertFromRaw(JSON.parse(rawEditorContents))
+          )
       );
     }
 
     db.collection("userDocs")
-      .doc(session.user.email)
-      .collection("docs")
-      .doc(id)
-      .set(
-        {
-          editorState: convertToRaw(editorState.getCurrentContent()),
-        },
-        {
-          merge: true,
-        }
-      );
+        .doc(session.user.email)
+        .collection("docs")
+        .doc(id)
+        .set(
+            {
+              editorState: convertToRaw(editorState.getCurrentContent()),
+            },
+            {
+              merge: true,
+            }
+        );
   };
 
   return (
