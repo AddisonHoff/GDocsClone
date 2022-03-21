@@ -7,7 +7,7 @@ import { useRouter } from "next/dist/client/router";
 import { convertFromRaw, convertToRaw } from "draft-js";
 import { useSession } from "next-auth/client";
 import { useDocumentOnce } from "react-firebase-hooks/firestore";
-import OpenAiApi from 'openai'
+import { Configuration, OpenAIApi } from "openai";
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((module) => module.Editor),
@@ -74,7 +74,7 @@ function TextEditor() {
       );
     }
 
-    db.collection("userDocs")
+    await db.collection("userDocs")
         .doc(session.user.email)
         .collection("docs")
         .doc(id)
