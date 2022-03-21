@@ -39,7 +39,7 @@ function TextEditor() {
   async function question(question) {
 
     const configuration = new Configuration({
-        apiKey: process.env.OPEN_AI_API_KEY,
+        apiKey: "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",
     })
     const openai = new OpenAIApi(configuration)
 
@@ -55,17 +55,46 @@ function TextEditor() {
         newString = newString.concat(responseText.text)
     }
 
+    console.log("IN CALL: "+newString)
+
     return newString
   }
 
 
   const onEditorStateChange = async (editorState) => {
+
+
+
     setEditorState(editorState)
 
     let rawEditorContents = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
     console.log(rawEditorContents)
+    console.log(editorState.getCurrentContent().getPlainText("\n"))
+
+
+
     if (rawEditorContents.indexOf("/a") !== -1) {
-      rawEditorContents = rawEditorContents.replace("/a", await question(rawEditorContents));
+
+
+      //auto complete
+      const plainText = editorState.getCurrentContent().getPlainText("\n")
+      const autocompletePrompt = plainText.indexOf("/a")
+      let lastSentence = ""
+      const textBeforePrompt = plainText.substring(0, autocompletePrompt)
+      console.log("test before prompt"+textBeforePrompt)
+      if(textBeforePrompt.includes(".")) {
+          lastSentence = textBeforePrompt.substring(textBeforePrompt.lastIndexOf(".")+1, textBeforePrompt.length)
+      } else lastSentence = textBeforePrompt
+
+      if (lastSentence.includes("\n")) {
+        lastSentence = lastSentence.substring(lastSentence.lastIndexOf("\n"), lastSentence.length)
+        console.log("last sentence before prompt" + lastSentence.replace(/(\r\n|\n|\r)/gm, ""))
+      }
+      
+      lastSentence = lastSentence.replace(/(\r\n|\n|\r)/gm, "")
+      let answer = await question(lastSentence)
+      rawEditorContents = rawEditorContents.replace(lastSentence, answer.replace(/(\r\n|\n|\r)/gm, ""))
+      rawEditorContents = rawEditorContents.replace("/a", "")
       console.log(rawEditorContents)
       setEditorState(
           EditorState.createWithContent(
