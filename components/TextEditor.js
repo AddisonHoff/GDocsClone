@@ -7,6 +7,7 @@ import { useRouter } from "next/dist/client/router";
 import { convertFromRaw, convertToRaw } from "draft-js";
 import { useSession } from "next-auth/client";
 import { useDocumentOnce } from "react-firebase-hooks/firestore";
+import OpenAiApi from 'openai'
 
 const Editor = dynamic(
   () => import("react-draft-wysiwyg").then((module) => module.Editor),
@@ -59,10 +60,10 @@ function TextEditor() {
   const onEditorStateChange = (editorState) => {
     setEditorState(editorState)
 
-    const rawEditorContents = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
+    let rawEditorContents = JSON.stringify(convertToRaw(editorState.getCurrentContent()))
     console.log(rawEditorContents)
     if(rawEditorContents.indexOf("/a") !== -1) {
-      rawEditorContents = rawEditorContents.replace("/a", question(rawEditorContents));
+      rawEditorContents = rawEditorContents.replace("/a", await question(rawEditorContents));
       console.log(rawEditorContents)
       setEditorState(
         EditorState.createWithContent(
