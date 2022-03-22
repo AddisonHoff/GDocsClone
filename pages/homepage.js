@@ -15,7 +15,7 @@
 
 
         </div>
-
+</div>
     <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 bg-slate-900">
 
                   <div class="card m-2 cursor-pointer border border-white rounded-lg hover:shadow-md hover:border-opacity-0 transform hover:-translate-y-1 transition-all duration-200">

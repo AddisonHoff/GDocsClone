@@ -16,6 +16,11 @@ export default function CreateDoc() {
     const [session] = useSession()
     const [showModal, setShowModal] = useState(false)
     const [input, setInput] = useState('')
+    
+    
+    function refreshPage() {
+        window.location.reload(false);
+      }
 
     const createDocument = () => {
         if (!input) return
@@ -28,79 +33,35 @@ export default function CreateDoc() {
         )
 
         setInput('')
-        setShowModal(false)
+
+        refreshPage()
     }
-
-    const modal = (
-        <Modal 
-        size="sm"
-        active={showModal}
-        toggler={() => setShowModal(false)}>
-
-            <ModalBody>
-           <input
-           value={input}
-            onChange={(e) => setInput(e.target.value)}
-            type="text"
-            className="outline-none w-full"
-            placeholder="Enter name of document..."
-            onKeyDown={(e) => e.key === "Enter " && createDocument()}
-            >
-            </input>
-            </ModalBody>
-
-            <ModalFooter>
-                <Button
-                color="black"
-                buttonType="link"
-                onClick={(e) => setShowModal(false)}
-                ripple="dark"
-                >
-                    Cancel
-                </Button>
-
-                <Button 
-                className="bg-black"
-                color="black" 
-                onClick={createDocument}
-                ripple="light">
-                    Create
-                </Button>
-            </ModalFooter>
-
-        </Modal>
-
-    )
-
 
 
 
 
     return (
-        <section className='bg-black pb-10 px-10'>
-        <div className="max-w-3xl mx-auto">
-            <div className='flex items-center py-6 justify-between'>
-                <h2 className='text-white text-lg'>Start a new document</h2>
-                {modal}
-                <Button
-                color="white"
-                buttonType="outline"
-                iconOnly={true}
-                ripple="dark"
-                className="border-0">
-                    <Icon name="more_vert" size="3xl" color="white"></Icon>
-                </Button>
-                </div>
-                
-                <div className='relative h-52 w-40 border-0 hover:border-4 border-black  cursor-pointer'
-                onClick={()=> setShowModal(true)}
-                >
-                        <Image src="/new.png"
-                        layout="fill"
-                        ></Image>
-                    </div>
-                    <p className=' mt-2 font-semibold text-white'>Blank</p>
-            </div>
-        </section>
+        <div class="min-h-1/2 bg-slate-900  border border-gray-900">
+
+        <div class="max-w-6xl sm:mx-24 md:mx-34 lg:mx-56 mx-auto  flex items-center space-y-4 py-16 font-semibold text-gray-500 flex-col">
+
+
+            <h1 class="text-white text-2xl">Create A Doc</h1>
+            <input 
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter " && createDocument()}
+            class="w-full p-2 rounded-md  border border-gray-700 focus:border-blue-700"
+                placeholder="Correo" type="email" name="correo" id=""></input>
+
+            <input
+                            onClick={createDocument}
+
+            class="w-full p-2 bg-gray-50 rounded-full font-bold text-gray-900 border border-gray-700 "
+                type="submit" name="correo" id=""></input>
+        </div>
+
+
+    </div>
     )
     }
